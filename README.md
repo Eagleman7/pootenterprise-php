@@ -13,16 +13,20 @@ The image is based on the PHP Docker Official Image and includes:
 Images are published to GHCR after every merge to `main` that changes the `Dockerfile` or the build workflow:
 
 ```text
-ghcr.io/eagleman7/pootenterprise-php:8.5-fpm-bookworm-<commit-sha>
+ghcr.io/eagleman7/pootenterprise-php:<php-version>-<commit-sha>
 ```
+
+`<php-version>` is the exact PHP version of the base image in the `Dockerfile`'s `FROM` line, which must therefore pin a full `php:X.Y.Z-*` tag. The build fails if it does not, or if the built image reports a different PHP version.
 
 Tags are immutable and there is intentionally no `latest` tag. Kubernetes workloads should reference a complete commit-specific tag so that deployments are reproducible and rollbacks are explicit.
 
 Example:
 
 ```yaml
-image: ghcr.io/eagleman7/pootenterprise-php:8.5-fpm-bookworm-0123456789abcdef0123456789abcdef01234567
+image: ghcr.io/eagleman7/pootenterprise-php:8.5.12-0123456789abcdef0123456789abcdef01234567
 ```
+
+After each published image, the workflow creates a GitHub release with the same name as the image tag. The release notes list the image reference, its digest, the base image, and the changes merged since the previous release.
 
 ## Development and validation
 
