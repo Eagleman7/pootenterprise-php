@@ -45,7 +45,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=8.3-fpm-bookworm-${{ github.sha }}
+            type=raw,value=8.5-fpm-bookworm-${{ github.sha }}
 
       - name: Build image
         uses: docker/build-push-action@v6
@@ -60,7 +60,7 @@ jobs:
           labels: |
             ${{ steps.meta.outputs.labels }}
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.version=8.3-fpm-bookworm-${{ github.sha }}
+            org.opencontainers.image.version=8.5-fpm-bookworm-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
