@@ -10,7 +10,7 @@ The image is based on the PHP Docker Official Image and includes:
 
 ## Published image
 
-Images are published to GHCR after every successful merge to `main` or `master`:
+Images are published to GHCR after every merge to `main` that changes the `Dockerfile` or the build workflow:
 
 ```text
 ghcr.io/eagleman7/pootenterprise-php:8.5-fpm-bookworm-<commit-sha>
