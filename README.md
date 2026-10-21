@@ -18,12 +18,14 @@ ghcr.io/eagleman7/pootenterprise-php:<php-version>-<commit-sha>
 
 `<php-version>` is the exact PHP version of the base image in the `Dockerfile`'s `FROM` line, which must therefore pin a full `php:X.Y.Z-*` tag. The build fails if it does not, or if the built image reports a different PHP version.
 
-Tags are immutable and there is intentionally no `latest` tag. Kubernetes workloads should reference a complete commit-specific tag so that deployments are reproducible and rollbacks are explicit.
+Commit-specific tags are immutable. Each build is also tagged with the bare PHP version (for example `8.5.12`), which moves to the newest build of that version. There is intentionally no `latest` tag.
+
+Kubernetes workloads reference the PHP version tag pinned to a digest, so deployments stay reproducible while Renovate can propose updates: a new digest when the same PHP version is rebuilt (for example for base image security fixes), and a new tag when a newer PHP version is published.
 
 Example:
 
 ```yaml
-image: ghcr.io/eagleman7/pootenterprise-php:8.5.12-0123456789abcdef0123456789abcdef01234567
+image: ghcr.io/eagleman7/pootenterprise-php:8.5.12@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 ```
 
 After each published image, the workflow creates a GitHub release with the same name as the image tag. The release notes list the image reference, its digest, the base image, and the changes merged since the previous release.
@@ -38,4 +40,4 @@ Configure the active default branch (`main` currently, or `master` if you rename
 
 ## Rollback
 
-Rollback by changing the deployment to a previously published commit-specific tag. No image tag is overwritten, so existing tags remain available for reproducible rollback.
+Rollback by changing the deployment's digest to a previous build's digest, which is listed in that build's GitHub release, or to a previously published commit-specific tag. Commit-specific tags and digests are never overwritten, so earlier builds remain available for reproducible rollback.
