@@ -1,4 +1,4 @@
-FROM php:8.5.12-fpm-bookworm@sha256:75dc898a8861a777f14c57b2afbb811a848735701593cbc354e4194807a88f3e
+FROM php:8.5.12-fpm-bookworm@sha256:eec275cd99580e0a6e103dd343a7c160c86917003f6b9bba2d4c75d82419c683
 
 LABEL org.opencontainers.image.title="PootEnterprise PHP" \
       org.opencontainers.image.description="PHP 8.5 FPM with GD and MySQLi" \
